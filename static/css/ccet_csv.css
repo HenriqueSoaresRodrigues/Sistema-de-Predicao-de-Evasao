@@ -12,6 +12,14 @@ body {
     padding: 20px;
 }
 
+.centralizar {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Cabeçalho */
 h1 {
     color: #444;
