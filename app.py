@@ -1385,6 +1385,10 @@ def ccet_csv_model4GPA():
         return render_template('CCET/model4GPA/CSV_CCET4.html', user=user, email=email)
     else:
         return redirect(url_for('login_page'))
+    
+@app.route('/sobre')
+def about_page():
+    return render_template('sobre.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

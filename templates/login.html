@@ -21,15 +21,20 @@
         <form @submit.prevent="submitForm">
             
 
-            <label for="GPA1">E-mail:</label>
+            <label for="email">E-mail:</label>
             <input type="text" id="email"  placeholder="Digite o seu e-mail" title="Digite o seu e-mail" required v-model="formData.email">
 
-            <label for="CR_ATUAL">Senha:</label>
+            <label for="senha">Senha:</label>
             <input type="password" id="senha"   placeholder="Digite sua senha" title="Digite sua senha" required v-model="formData.senha">
             
             <button type="submit">Enviar</button>
         </form> 
         </div>
+        <div class="centralizar">
+            <a href="/sobre"><h2>Saiba mais sobre a pesquisa</h2></a>
+        </div>
+
+
     <script type="text/javascript" src="{{ url_for('static', filename='js/login.js') }}"></script>
     
 </body>
