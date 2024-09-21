@@ -152,7 +152,7 @@ def bsi_model4gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
-        inserir_log_predicao( y_pred.tolist()[0])
+        inserir_log_predicao( y_pred.tolist()[0], "Sistemas de Informação")
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -224,7 +224,7 @@ def bsi_model3gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
-        inserir_log_predicao( y_pred.tolist()[0])
+        inserir_log_predicao( y_pred.tolist()[0], "Sistemas de Informação")
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -298,7 +298,7 @@ def bsi_model2gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
-        inserir_log_predicao( y_pred.tolist()[0])
+        inserir_log_predicao( y_pred.tolist()[0], "Sistemas de Informação")
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -374,7 +374,7 @@ def bsi_model1gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
-        inserir_log_predicao( y_pred.tolist()[0])
+        inserir_log_predicao( y_pred.tolist()[0], "Sistemas de Informação")
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -454,7 +454,7 @@ def mat_model4gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
-        inserir_log_predicao( y_pred.tolist()[0])
+        inserir_log_predicao( y_pred.tolist()[0], "Matemática")
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -527,7 +527,7 @@ def mat_model3gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
-        inserir_log_predicao( y_pred.tolist()[0])
+        inserir_log_predicao( y_pred.tolist()[0], "Matemática")
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -601,7 +601,7 @@ def mat_model2gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
-        inserir_log_predicao( y_pred.tolist()[0])
+        inserir_log_predicao( y_pred.tolist()[0], "Matemática")
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -678,7 +678,7 @@ def mat_model1gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
-        inserir_log_predicao( y_pred.tolist()[0])
+        inserir_log_predicao( y_pred.tolist()[0], "Matemática")
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -755,7 +755,7 @@ def ccet_model4gpa_predict():
         categorical_columns = ['ingresso_atual', 'IsTheyBusinessperson', 'Categoria', 'SEXO', 'employee_student','NOME_CURSO', 'bolsista']
         # Get the JSON data from the request
         data = request.json
-    
+        curso = data['NOME_CURSO']
         # Create a DataFrame from the JSON data
         df = pd.DataFrame(data, index=[0])
          # Apply label encoding to categorical columns
@@ -784,7 +784,7 @@ def ccet_model4gpa_predict():
         y_pred = pipeline.predict(X)
         print(y_pred.tolist())
         # Return the predictions as JSON
-        inserir_log_predicao( y_pred.tolist()[0])
+        inserir_log_predicao( y_pred.tolist()[0], curso)
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
             error_message = f"Error: {str(e)}"
@@ -825,7 +825,7 @@ def ccet_model3gpa_predict():
         categorical_columns = ['ingresso_atual', 'IsTheyBusinessperson', 'Categoria', 'SEXO', 'employee_student','NOME_CURSO', 'bolsista']
         # Get the JSON data from the request
         data = request.json
-    
+        curso = data['NOME_CURSO']
         # Create a DataFrame from the JSON data
         df = pd.DataFrame(data, index=[0])
          # Apply label encoding to categorical columns
@@ -854,7 +854,7 @@ def ccet_model3gpa_predict():
         y_pred = pipeline.predict(X)
         print(y_pred.tolist())
         # Return the predictions as JSON
-        inserir_log_predicao( y_pred.tolist()[0])
+        inserir_log_predicao( y_pred.tolist()[0], curso)
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
             error_message = f"Error: {str(e)}"
@@ -895,7 +895,8 @@ def ccet_model2gpa_predict():
         categorical_columns = ['ingresso_atual', 'IsTheyBusinessperson', 'Categoria', 'SEXO', 'employee_student','NOME_CURSO', 'bolsista']
         # Get the JSON data from the request
         data = request.json
-    
+        curso = data['NOME_CURSO']
+
         # Create a DataFrame from the JSON data
         df = pd.DataFrame(data, index=[0])
          # Apply label encoding to categorical columns
@@ -924,7 +925,7 @@ def ccet_model2gpa_predict():
         y_pred = pipeline.predict(X)
         print(y_pred.tolist())
         # Return the predictions as JSON
-        inserir_log_predicao( y_pred.tolist()[0])
+        inserir_log_predicao( y_pred.tolist()[0], curso)
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
             error_message = f"Error: {str(e)}"
@@ -965,7 +966,7 @@ def ccet_model1gpa_predict():
         categorical_columns = ['ingresso_atual', 'IsTheyBusinessperson', 'Categoria', 'SEXO', 'employee_student','NOME_CURSO', 'bolsista']
         # Get the JSON data from the request
         data = request.json
-    
+        curso = data['NOME_CURSO']
         # Create a DataFrame from the JSON data
         df = pd.DataFrame(data, index=[0])
          # Apply label encoding to categorical columns
@@ -994,7 +995,7 @@ def ccet_model1gpa_predict():
         y_pred = pipeline.predict(X)
         print(y_pred.tolist())
         # Return the predictions as JSON
-        inserir_log_predicao( y_pred.tolist()[0])
+        inserir_log_predicao( y_pred.tolist()[0], curso)
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
             error_message = f"Error: {str(e)}"
@@ -1076,7 +1077,7 @@ def eng_model4gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
-        inserir_log_predicao( y_pred.tolist()[0])
+        inserir_log_predicao( y_pred.tolist()[0], "Engenharia de Produção")
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -1149,7 +1150,7 @@ def eng_model3gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
-        inserir_log_predicao( y_pred.tolist()[0])
+        inserir_log_predicao( y_pred.tolist()[0], "Engenharia de Produção")
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -1224,7 +1225,7 @@ def eng_model2gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
-        inserir_log_predicao( y_pred.tolist()[0])
+        inserir_log_predicao( y_pred.tolist()[0], "Engenharia de Produção")
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -1300,7 +1301,7 @@ def eng_model1gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
-        inserir_log_predicao( y_pred.tolist()[0])
+        inserir_log_predicao( y_pred.tolist()[0], "Engenharia de Produção")
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -1419,12 +1420,12 @@ def log():
 
 
 # Função para inserir dados na tabela log_predicao
-def inserir_log_predicao(predicao):
+def inserir_log_predicao(predicao, curso):
     # Traduz o valor da predição
     if predicao == 0:
-        predicao_texto = "provavelmente vai evadir"
+        predicao_texto = "Provavelmente vai evadir"
     elif predicao == 1:
-        predicao_texto = "provavelmente vai se formar"
+        predicao_texto = "Provavelmente vai se formar"
     else:
         raise ValueError("Valor de predição inválido. Use 0 ou 1.")
     
@@ -1438,10 +1439,11 @@ def inserir_log_predicao(predicao):
 
         # Query SQL para inserir dados
         sql = """
-        INSERT INTO log_predicao (data, predicao)
-        VALUES (%s, %s)
-        """
-        valores = (data_atual, predicao_texto)
+             INSERT INTO log_predicao (data, predicao, curso)
+            VALUES (%s, %s, %s)
+            """
+        valores = (data_atual, predicao_texto, curso)
+
 
         # Executa a query
         cursor.execute(sql, valores)

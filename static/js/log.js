@@ -19,6 +19,11 @@ function populateTable(logs) {
       dataCell.textContent = new Date(log.data).toLocaleString();  // Formata a data
       row.appendChild(dataCell);
 
+       // Coluna do Curso
+       const cursoCell = document.createElement('td');
+       cursoCell.textContent = log.curso;
+       row.appendChild(cursoCell);
+
       // Coluna da Predição
       const predicaoCell = document.createElement('td');
       predicaoCell.textContent = log.predicao;
