@@ -8,6 +8,8 @@ import joblib
 import traceback
 import mysql.connector
 from mysql.connector import Error
+from datetime import datetime
+
 app = Flask(__name__, static_folder='static')
 
 # Definindo a chave secreta
@@ -150,6 +152,7 @@ def bsi_model4gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
+        inserir_log_predicao( y_pred.tolist()[0])
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -221,6 +224,7 @@ def bsi_model3gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
+        inserir_log_predicao( y_pred.tolist()[0])
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -294,6 +298,7 @@ def bsi_model2gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
+        inserir_log_predicao( y_pred.tolist()[0])
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -369,6 +374,7 @@ def bsi_model1gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
+        inserir_log_predicao( y_pred.tolist()[0])
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -448,6 +454,7 @@ def mat_model4gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
+        inserir_log_predicao( y_pred.tolist()[0])
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -520,6 +527,7 @@ def mat_model3gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
+        inserir_log_predicao( y_pred.tolist()[0])
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -593,6 +601,7 @@ def mat_model2gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
+        inserir_log_predicao( y_pred.tolist()[0])
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -669,6 +678,7 @@ def mat_model1gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
+        inserir_log_predicao( y_pred.tolist()[0])
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -774,6 +784,7 @@ def ccet_model4gpa_predict():
         y_pred = pipeline.predict(X)
         print(y_pred.tolist())
         # Return the predictions as JSON
+        inserir_log_predicao( y_pred.tolist()[0])
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
             error_message = f"Error: {str(e)}"
@@ -843,6 +854,7 @@ def ccet_model3gpa_predict():
         y_pred = pipeline.predict(X)
         print(y_pred.tolist())
         # Return the predictions as JSON
+        inserir_log_predicao( y_pred.tolist()[0])
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
             error_message = f"Error: {str(e)}"
@@ -912,6 +924,7 @@ def ccet_model2gpa_predict():
         y_pred = pipeline.predict(X)
         print(y_pred.tolist())
         # Return the predictions as JSON
+        inserir_log_predicao( y_pred.tolist()[0])
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
             error_message = f"Error: {str(e)}"
@@ -981,6 +994,7 @@ def ccet_model1gpa_predict():
         y_pred = pipeline.predict(X)
         print(y_pred.tolist())
         # Return the predictions as JSON
+        inserir_log_predicao( y_pred.tolist()[0])
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
             error_message = f"Error: {str(e)}"
@@ -1062,6 +1076,7 @@ def eng_model4gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
+        inserir_log_predicao( y_pred.tolist()[0])
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -1134,6 +1149,7 @@ def eng_model3gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
+        inserir_log_predicao( y_pred.tolist()[0])
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -1208,6 +1224,7 @@ def eng_model2gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
+        inserir_log_predicao( y_pred.tolist()[0])
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -1283,6 +1300,7 @@ def eng_model1gpa_predict():
         print("-----------------------------------------------------------")
         print(y_pred.tolist())
         # Return the predictions as JSON
+        inserir_log_predicao( y_pred.tolist()[0])
         return jsonify({'prediction': y_pred.tolist()[0]})
     except Exception as e:
         error_message = f"Error: {str(e)}"
@@ -1389,6 +1407,86 @@ def ccet_csv_model4GPA():
 @app.route('/sobre')
 def about_page():
     return render_template('sobre.html')
+
+@app.route('/logs')
+def log():
+    if 'user' in session:
+        user = session['user']
+        email = session['email']
+        return render_template('log.html', user=user, email=email)
+    else:
+        return redirect(url_for('login_page'))
+
+
+# Função para inserir dados na tabela log_predicao
+def inserir_log_predicao(predicao):
+    # Traduz o valor da predição
+    if predicao == 0:
+        predicao_texto = "provavelmente vai evadir"
+    elif predicao == 1:
+        predicao_texto = "provavelmente vai se formar"
+    else:
+        raise ValueError("Valor de predição inválido. Use 0 ou 1.")
+    
+    # Obter data e hora atual
+    data_atual = datetime.now()
+    
+    try:
+        # Estabelece a conexão
+        connection = create_connection()
+        cursor = connection.cursor()
+
+        # Query SQL para inserir dados
+        sql = """
+        INSERT INTO log_predicao (data, predicao)
+        VALUES (%s, %s)
+        """
+        valores = (data_atual, predicao_texto)
+
+        # Executa a query
+        cursor.execute(sql, valores)
+
+        # Confirma a inserção no banco de dados
+        connection.commit()
+        print(f"Registro inserido com sucesso: {cursor.rowcount} linha(s) afetada(s).")
+    
+    except mysql.connector.Error as err:
+        print(f"Erro: {err}")
+    
+    finally:
+        # Fecha o cursor e a conexão
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
+@app.route('/pegar_logs', methods=['GET'])
+def buscar_log_predicao_json():
+    try:
+        # Estabelece a conexão
+        connection = create_connection()
+        cursor = connection.cursor(dictionary=True)  # Retorna as linhas como dicionários
+
+        # Query SQL para buscar todos os dados
+        sql = "SELECT * FROM log_predicao"
+        cursor.execute(sql)
+
+        # Busca todos os registros
+        resultados = cursor.fetchall()
+
+        # Retorna os resultados usando jsonify
+        return jsonify(resultados)
+    
+    except mysql.connector.Error as err:
+        return jsonify({"erro": str(err)}), 500
+    
+    finally:
+        # Fecha o cursor e a conexão
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
+
 
 if __name__ == '__main__':
     app.run(debug=True)
