@@ -39,6 +39,7 @@ def login():
     data = request.get_json()
     email = data.get('email')
     senha = data.get('senha')
+    ip_usuario = request.remote_addr
 
     if not email or not senha:
         return make_response(jsonify({"message": "Email e senha são obrigatórios"}), 400)
@@ -55,6 +56,7 @@ def login():
                 session['user'] = user  # Armazena o usuário na sessão
                 session['email'] = email
                 session['senha'] = senha
+                session['ip'] = ip_usuario
 
                 return redirect(url_for('index'))
             else:
@@ -1439,11 +1441,10 @@ def inserir_log_predicao(predicao, curso):
 
         # Query SQL para inserir dados
         sql = """
-             INSERT INTO log_predicao (data, predicao, curso)
-            VALUES (%s, %s, %s)
-            """
-        valores = (data_atual, predicao_texto, curso)
-
+        INSERT INTO log_predicao (data, predicao, curso, usuario, ip_usuario)
+        VALUES (%s, %s, %s, %s, %s)
+        """
+        valores = (data_atual, predicao_texto, curso, session['email'], session['ip'])
 
         # Executa a query
         cursor.execute(sql, valores)
@@ -1464,30 +1465,37 @@ def inserir_log_predicao(predicao, curso):
 
 @app.route('/pegar_logs', methods=['GET'])
 def buscar_log_predicao_json():
-    try:
-        # Estabelece a conexão
-        connection = create_connection()
-        cursor = connection.cursor(dictionary=True)  # Retorna as linhas como dicionários
+    if 'user' in session:
+        user = session['user']
+        email = session['email']
+        try:
+            # Estabelece a conexão
+            connection = create_connection()
+            cursor = connection.cursor(dictionary=True)  # Retorna as linhas como dicionários
 
-        # Query SQL para buscar todos os dados
-        sql = "SELECT * FROM log_predicao"
-        cursor.execute(sql)
+            # Query SQL para buscar todos os dados
+            sql = "SELECT * FROM log_predicao"
+            cursor.execute(sql)
 
-        # Busca todos os registros
-        resultados = cursor.fetchall()
+            # Busca todos os registros
+            resultados = cursor.fetchall()
 
-        # Retorna os resultados usando jsonify
-        return jsonify(resultados)
+            # Retorna os resultados usando jsonify
+            return jsonify(resultados)
     
-    except mysql.connector.Error as err:
-        return jsonify({"erro": str(err)}), 500
+        except mysql.connector.Error as err:
+            return jsonify({"erro": str(err)}), 500
     
-    finally:
-        # Fecha o cursor e a conexão
-        if cursor:
-            cursor.close()
-        if connection:
-            connection.close()
+        finally:
+            # Fecha o cursor e a conexão
+            if cursor:
+                cursor.close()
+            if connection:
+                connection.close()
+    else:
+        return redirect(url_for('login_page'))
+
+    
 
 
 if __name__ == '__main__':

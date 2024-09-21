@@ -14,6 +14,11 @@ function populateTable(logs) {
       idCell.textContent = log.idlog_predicao;
       row.appendChild(idCell);
 
+      // Coluna do usuário
+      const usuarioCell = document.createElement('td');
+      usuarioCell.textContent = log.usuario;
+      row.appendChild(usuarioCell);
+
       // Coluna da Data
       const dataCell = document.createElement('td');
       dataCell.textContent = new Date(log.data).toLocaleString();  // Formata a data
