@@ -17,7 +17,7 @@ app.secret_key = 'AAjANDKd4I'
 
 db_config = {
     'user': 'root',
-    'password': 'ursopanda',
+    'password': '',
     'host': '127.0.0.1',  # Apenas o endereço IP ou nome do host
     'port': 3306,  # Especificação separada da porta
     'database': 'sistema_predicao_evasao'
