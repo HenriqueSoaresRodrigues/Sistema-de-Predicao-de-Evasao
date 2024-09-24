@@ -24,6 +24,11 @@ function populateTable(logs) {
       dataCell.textContent = new Date(log.data).toLocaleString();  // Formata a data
       row.appendChild(dataCell);
 
+      // Coluna da Matricula do aluno
+      const matriculaCell = document.createElement('td');
+      matriculaCell.textContent = log.matricula;
+      row.appendChild(matriculaCell);
+
        // Coluna do Curso
        const cursoCell = document.createElement('td');
        cursoCell.textContent = log.curso;

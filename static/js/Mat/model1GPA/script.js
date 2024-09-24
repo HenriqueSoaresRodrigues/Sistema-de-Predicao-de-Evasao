@@ -3,6 +3,7 @@ new Vue({
     data: {
         formData: {
             ingresso_atual: '',
+            matricula: '',
             SEXO: '',
             IsTheyBusinessperson: '',
             Categoria: '',

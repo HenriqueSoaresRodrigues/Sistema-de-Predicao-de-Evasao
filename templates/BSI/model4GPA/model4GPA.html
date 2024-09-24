@@ -18,6 +18,10 @@
         <h1>Sistemas de Informação Modelo 4 </h1>
         <h2>Acurácia: 87%</h2>
         <form @submit.prevent="submitForm">
+
+            <label for="matricula">Matrícula do aluno:</label>
+            <input type="text" id="matricula"  placeholder="Digite uma matrícula da UNIRIO" title="Digite uma matrícula da UNIRIO" required v-model="formData.matricula">
+
             <label for="ingresso_atual">É cotista?</label>
             <select id="ingresso_atual" required v-model="formData.ingresso_atual">
                 <option value="nao-cotistas">Não-cotistas</option>
