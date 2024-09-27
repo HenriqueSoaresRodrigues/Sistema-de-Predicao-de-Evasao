@@ -57,7 +57,7 @@ def login():
                 session['email'] = email
                 session['senha'] = senha
                 session['ip'] = ip_usuario
-
+                session['root'] = user['root']
                 return redirect(url_for('index'))
             else:
                 return make_response(jsonify({"message": "Email ou senha incorretos"}), 401)
@@ -75,7 +75,8 @@ def index():
     if 'user' in session:
         user = session['user']
         email = session['email']
-        return render_template('index.html', user=user, email=email)
+        root =  session['root']
+        return render_template('index.html', user=user, email=email, root = root)
     else:
         return redirect(url_for('login_page'))
 
@@ -1495,7 +1496,59 @@ def buscar_log_predicao_json():
     else:
         return redirect(url_for('login_page'))
 
+@app.route('/novousuario')
+def page_novousuario():
+    if 'user' in session:
+        user = session['user']
+        email = session['email']
+        root = session['root']
+        return render_template('novousuario.html', user=user, email=email, root=root )
+    else:
+        return redirect(url_for('login_page'))
 
+@app.route('/criar_novo_usuario', methods=['POST'])
+def criar_novo_usuario():
+    if 'user' in session:
+        user = session['user']
+
+        if request.method == 'POST':
+            data = request.get_json()  # Receber dados JSON
+            if data is None:
+                return jsonify({'success': False, 'message': 'Nenhum dado enviado'}), 400
+
+            print(data)
+            nova_senha = data.get('nu_nova_senha')
+            confirma_senha = data.get('nu_confirma_senha')
+            email = data.get('nu_email')
+
+            # Validação da nova senha (opcional)
+            if not nova_senha:
+                print('A nova senha não pode ser vazia.')
+                return redirect(url_for('page_novousuario'))
+
+            if  nova_senha != confirma_senha:
+                print('Senhas precisam ser iguais.')
+                return redirect(url_for('page_novousuario'))
+
+
+            try:
+                conn = create_connection()
+                cursor = conn.cursor()
+                update_query = "INSERT INTO usuario (email, senha, root)  VALUES (%s, %s, %s)"
+                cursor.execute(update_query, (email, nova_senha, 0))
+                conn.commit()
+                print('Usuário criado com sucesso!')
+            except mysql.connector.Error as err:
+                print(f'Erro ao atualizar a senha: {err}')
+            finally:
+                cursor.close()
+                conn.close()
+
+            response = make_response(jsonify({'success': True, 'message': 'Usuário criado com sucesso!'}), 200)
+            return response
+        return render_template('trocarsenha.html', user=user, email=email)
+    else:
+        return redirect(url_for('login_page'))
 
 
 if __name__ == '__main__':
