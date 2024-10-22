@@ -1,21 +1,29 @@
 document.getElementById('processButton').addEventListener('click', processCSV);
 
-function processCSV() {
+async function processCSV() {
     const fileInput = document.getElementById('fileInput');
+    const progressBar = document.getElementById('progressBar');
+
     if (!fileInput.files.length) {
         alert('Please upload a CSV file first.');
         return;
     }
+
+    // Exibir a barra de progresso
+    progressBar.style.display = 'block';
+    progressBar.value = 0;
 
     const file = fileInput.files[0];
     Papa.parse(file, {
         header: true,
         complete: async function(results) {
             const data = results.data;
+            const totalRows = data.length;
+
             const updatedData = await Promise.all(
-                data.map(async (row) => {
+                data.map(async (row, index) => {
                     try {
-                        const response = await fetch('http://127.0.0.1:5000/ccet/model1GPA/predict', {
+                        const response = await fetch('http://127.0.0.1:5000/ccet/model2GPA/predict', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -30,26 +38,33 @@ function processCSV() {
                                 SEXO: row.SEXO,
                                 employee_student: row.employee_student,
                                 NOME_CURSO: row.NOME_CURSO,
+                                matricula: row.MATR_ALUNO,
+                                bolsista: row.bolsista,
                             }),
                         });
                         const prediction = await response.json();
                         if (prediction.prediction === 1) {
-                            console.log("Provavelmente vai se formar");
                             prediction.prediction = "Provavelmente vai se formar";
-                        } else if (prediction.prediction=== 0) {
-                            console.log("Provavelmente vai evadir");
+                        } else if (prediction.prediction === 0) {
                             prediction.prediction = "Provavelmente vai evadir";
                         } else {
-                            console.log("Unexpected response from server"); 
-        
+                            console.log("Unexpected response from server");
                         }
-                        return { ...row, Prediction: prediction.prediction }; // Ajuste a chave 'prediction' conforme a resposta do servidor
+
+                        // Atualizar a barra de progresso
+                        progressBar.value = ((index + 1) / totalRows) * 100;
+
+                        return { ...row, Prediction: prediction.prediction };
                     } catch (error) {
                         console.error('Error during fetch:', error);
                         return { ...row, Prediction: 'Error' };
                     }
                 })
             );
+
+            // Ocultar a barra de progresso
+            progressBar.style.display = 'none';
+
             generateNewCSV(updatedData);
         },
     });
