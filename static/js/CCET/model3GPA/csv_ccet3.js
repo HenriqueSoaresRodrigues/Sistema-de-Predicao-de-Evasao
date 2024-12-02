@@ -5,7 +5,7 @@ async function processCSV() {
     const progressBar = document.getElementById('progressBar');
 
     if (!fileInput.files.length) {
-        alert('Please upload a CSV file first.');
+        alert('Por favor, primeiro, carregue um arquivo CSV.');
         return;
     }
 
